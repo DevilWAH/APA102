@@ -4,7 +4,27 @@ import string
 import random
 import readchar
 import math
+import spidev
 
+### first set up SPI and LED strip ###
+
+#Set up the SPI pins and system
+spi = spidev.SpiDev()
+spi.open(0,1)
+spi.max_speed_hz=8000000
+
+#number of LED
+NumLED = 60
+
+
+# set up varibles for indervidual LED and string that will  be sent to Strip
+# Indivual LEDs can be changed be writing to LED[x]
+
+LED = []
+LEDs = []
+
+
+### now set up and run the "Game" ### 
 
 #setting up the three letters that player will type
 string.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -78,3 +98,51 @@ print "Letter three LED's = ", led3
 otherLED = 60-(led1 + led2 + led3)
 
 print "Padding LED's = ", otherLED
+
+
+##So now we have all the data we need to output it all to the LED strip, strip will fill one LED at a time so not simply 
+#flashing on but "sliding" in. 
+
+### First we need to set up some standard VAribles
+
+# Start frame
+Start = [0x00, 0x00, 0x00, 0x00]
+# Blank single LED frame
+BlankS = [0xE0, 0x00, 0x00, 0x00]
+#Blank all LED's 
+Blankall = BlankS*(NumLED*2)
+#EndFrame
+EndFrame = [0]*(NumLED/2)
+
+Low = 0xE1
+Mid = 0xF0
+High = 0xFF
+
+Blue = [High, 255, 0, 0]
+Green =[High, 0, 255, 0]
+Red = [High, 0, 0, 255]
+Purple = [Mid, 255, 0 ,255]
+
+
+for i in range(0, otherLED):
+	LED.append(Purple)
+for i in range(0 , led3):
+        LED.append(Red)
+for i in range(0, led2):
+	LED.append(Green)
+for i in range(0, led1):
+	LED.append(Blue)
+
+
+try:
+        print "Press Ctrl-C to Exit"
+        while True:
+                LEDs = [item for sublist in LED for item in sublist]
+                resp = spi.xfer2(Start + LEDs + EndFrame)
+                time.sleep(0.01)
+
+except KeyboardInterrupt:
+    pass
+
+
+resp = spi.xfer2(Start + Blankall + EndFrame)
