@@ -34,9 +34,10 @@ BlankS = [0xE0, 0x00, 0x00, 0x00]
 Blankall = BlankS*(NumLED*2)
 
 So the end frame is just as described numbr leds / 2 
-
 #EndFrame
 EndFrame = [0]*(NumLED/2)
+
+#these varibles are just to make assigning a brightness easier during testing, I will also create a colour pallet at some point
 Low = 0xE1
 Mid = 0xF0
 High = 0xFF
