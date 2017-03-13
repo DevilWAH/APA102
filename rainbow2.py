@@ -28,11 +28,11 @@ for i in range(0 , NumLED):
 # Start frame
 Start = [0x00, 0x00, 0x00, 0x00]
 # Blank single LED frame
-BlankS = [0xFF, 0x00, 0x00, 0x00]
+BlankS = [0xE0, 0x00, 0x00, 0x00]
 #Blank all LED's 
 Blankall = BlankS*(NumLED*2)
 #EndFrame
-EndFrame = [0]*(NumLED)
+EndFrame = [0]*(NumLED/2)
 Low = 0xE1
 Mid = 0xF0
 High = 0xFF
