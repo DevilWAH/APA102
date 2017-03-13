@@ -1,0 +1,42 @@
+There are a number of frame types used when controling APA102 Strips, vribles for easy access and explained here
+
+These are two good posts on the workings of the strips. 
+
+https://cpldcpu.com/2014/08/27/apa102/
+https://cpldcpu.com/2014/11/30/understanding-the-apa102-superled/
+
+To set the LED you send a start frame and then X number of LED control frames, When the frames hit the first LED in the strip it will read the first control frame
+then strip this frame from the sequence (replace it with 0's) and forward the rest on, so each LED will remove one control frame untill the final frame reachs the last LED. 
+
+This does mean you want to update teh 60th LED in a strip then you also have to update the first 59 as well, I have not found a way to only update LED x.
+(I want to check out the control frame and see if changing the first 3bit allow you to skip a LED or not.) bit for now this means having to hold an array of all LED and sending them all each time.  
+
+It also requies and "Endframe" this is not truly a frame but a series of clock cycles. IF you send 3 control fames the 3rd frame will not reach the 3rd LED As 
+some cycles are used up passing frames from LED to LED (1/2 cycle per LED) so to "flush" the commans through the strip till the end you need to send 
+more clock cycles, the most cycels needed will be half the number of LED's in the strip. I simple send number of LED / 2 number of 0's but 1 would work as well, 
+it just needs the clock cycles.   
+
+
+#The Start frame is a string of 32 zeros after an LED on the strip sees this it will see the ned "1" as the start of its control frame. 
+Start = [0x00, 0x00, 0x00, 0x00]
+
+An LED control frame is composed of Brightness Blue Green Red values in 4 8bit fields
+
+Field 1 must start with "111" so can be "11100000" through to "11111111" of in hex 0xE1 to 0xFF
+the other three fields at standaed 8bit colour values 0-255
+
+So a blank LED can be made by turning off all the colour fields and setting brightness to 0. 
+# Blank single LED frame
+BlankS = [0xE0, 0x00, 0x00, 0x00]
+
+#Blank all LED's -  wanted a way to easly blank all the LED in the strip so this was simple creating a string and holding it in a varible of 
+# X number of blank frames = to the total Number of LED in the stip
+Blankall = BlankS*(NumLED*2)
+
+So the end frame is just as described numbr leds / 2 
+
+#EndFrame
+EndFrame = [0]*(NumLED/2)
+Low = 0xE1
+Mid = 0xF0
+High = 0xFF
