@@ -27,7 +27,7 @@ LEDs = []
 ### now set up and run the "Game" ### 
 
 #setting up the three letters that player will type
-string.letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+string.letters = 'abcdefghijklmnopqrstuvwxyz'
 L1 = random.choice(string.letters)
 L2 = random.choice(string.letters)
 L3 = random.choice(string.letters)
@@ -35,7 +35,7 @@ L3 = random.choice(string.letters)
 #instruction message
 print ""
 print "Get Ready to type"
-print "The letters you will need to type are " + L1 + " " +  L2 + " "  + L3 
+print "The letters you will need to type are " + L1.upper() + " " +  L2.upper() + " "  + L3.upper() + " in lower case"
 print "The Timer will start as soon as you hit the space bar and stop when you corectly type the last letter" 
 print ""
 
@@ -47,9 +47,13 @@ U3 = None
 
 
 #wait for player to press space to start
-while not (Uspace == " "):
-	print("----READY HIT SPACE TO START!!!!----")
-	Uspace = readchar.readkey()
+try:
+	while not (Uspace == " "):
+		print("----READY HIT SPACE TO START!!!!----")
+		Uspace = readchar.readkey()
+
+except KeyboardInterrupt:
+    pass
 
 #get the start time
 start = time.time()
