@@ -1,0 +1,7 @@
+Create nested lists with both start and end frame, at the moment these are appened before writing to Spi but this means extra cycles / time. better to hold it in the 
+LED lists varibles and include it with the flatten command. as the start frame will be led[0] this will also mean leds can be address with 
+there more logical number, ie the first led on the strip will be LED[1]. For now though it works fine. 
+
+Create a libuary of basic pattens
+
+
