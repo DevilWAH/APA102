@@ -1,0 +1,28 @@
+Just some snipits of code to remember. 
+
+Much thanks to http://stackoverflow.com/ where lots of my questions get answered! 
+
+Flattening a List in Python
+
+So I am holding the LED values in a list of lists like this
+
+LED = [[0xEF, 255, 255, 255], [0xEF, 135, 234, 111], [0xEF, 244, 75, 128]]
+
+This makes it easy to address and indivual LED in the strip with out affecting any others. So if I want the second LED in the strip to 
+be blue and full brightness I can say LED[1] = [0xFF, 255, 0, 0]
+
+But when writing to the LED strip using SPIdev this woule mean looping through the LED list and sending each in turn. However 
+this is time consuming it would be nicer to send it as a single command which i could do it i convert it to a single flat list 
+which the following line of code does. 
+
+LEDs = [item for sublist in LED for item in sublist]
+
+thank you to stack overflow. (http://stackoverflow.com/a/952952/726150) 
+as this post explaings there are other ways to achive the same but this is an order of magnitiude faster than the rest. 300usec vs 4msec on the raspberry pi
+
+and give an output of 
+
+LEDs = 0xEF, 255, 255, 255, 0xEF, 135, 234, 111, 0xEF, 244, 75, 128
+
+which i can then tag a start and end frame to and write to the SPi bus
+
