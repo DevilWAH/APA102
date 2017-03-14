@@ -44,7 +44,7 @@ resp = spi.xfer2(Start + Blankall + EndFrame)
 
 #rainbow colours
 #brightness is E0 / 1110 0000 / 224 (the start for frame) + 0 - 31 
-colour = [[Mid, 0, 0, 255],[Mid, 0, 127, 255],[Mid, 0, 255, 255],[Mid, 0, 255, 0],[Mid, 255, 0, 0],[Mid, 130, 0, 75],[Mid, 211, 0, 148]]
+colour = [[Mid, 0, 0, 255],[Mid, 0, 48, 255],[Mid, 0, 255, 255],[Mid, 0, 255, 0],[Mid, 255, 0, 0],[Mid, 130, 0, 75],[Mid, 255, 0, 255]]
 
 
 led = 0
@@ -84,7 +84,7 @@ try:
 
 		LEDs = [item for sublist in LED for item in sublist]
         	resp = spi.xfer2(Start + LEDs + EndFrame)
-        	time.sleep(0.01)
+        	time.sleep(0.02)
         
 except KeyboardInterrupt:
     pass
