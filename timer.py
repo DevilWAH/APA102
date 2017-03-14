@@ -130,13 +130,24 @@ Purple = [Mid, 255, 0 ,255]
 
 for i in range(0, otherLED):
 	LED.append(Purple)
+	LEDs = [item for sublist in LED for item in sublist]
+        resp = spi.xfer2(Start + LEDs + EndFrame)
+        time.sleep(0.1)
 for i in range(0 , led3):
         LED.append(Red)
+	LEDs = [item for sublist in LED for item in sublist]
+        resp = spi.xfer2(Start + LEDs + EndFrame)
+        time.sleep(0.1)
 for i in range(0, led2):
 	LED.append(Green)
+	LEDs = [item for sublist in LED for item in sublist]
+        resp = spi.xfer2(Start + LEDs + EndFrame)
+        time.sleep(0.1)
 for i in range(0, led1):
 	LED.append(Blue)
-
+	LEDs = [item for sublist in LED for item in sublist]
+        resp = spi.xfer2(Start + LEDs + EndFrame)
+        time.sleep(0.1)
 
 try:
         print "Press Ctrl-C to Exit"
