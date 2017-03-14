@@ -19,10 +19,12 @@ NumLED = 60
 
 # set up varibles for indervidual LED and string that will  be sent to Strip
 # Indivual LEDs can be changed be writing to LED[x]
+#Also populate the array with the right number of LED's all set to blank, this means later I can simple address the LED I want with otu having to worry anout if it has been inisilised. 
 
 LED = []
 LEDs = []
-
+for i in range(0 , NumLED):
+        LED.append([0xE0, 0x00, 0x00, 0x00])
 
 ### now set up and run the "Game" ### 
 
@@ -127,37 +129,52 @@ Green =[High, 0, 255, 0]
 Red = [High, 0, 0, 255]
 Purple = [Mid, 255, 0 ,255]
 
+currentLED = NumLED-1
+
+for i in range(0, led1):
+        LED[currentLED] = Blue
+        LEDs = [item for sublist in LED for item in sublist]
+        resp = spi.xfer2(Start + LEDs + EndFrame)
+        time.sleep(0.05)
+        currentLED = currentLED - 1
+
+
+for i in range(0, led2):
+        LED[currentLED] = Green
+        LEDs = [item for sublist in LED for item in sublist]
+        resp = spi.xfer2(Start + LEDs + EndFrame)
+        time.sleep(0.05)
+        currentLED = currentLED - 1
+
+for i in range(0 , led3):
+        LED[currentLED] = Red
+        LEDs = [item for sublist in LED for item in sublist]
+        resp = spi.xfer2(Start + LEDs + EndFrame)
+        time.sleep(0.05)
+        currentLED = currentLED - 1
 
 for i in range(0, otherLED):
-	LED.append(Purple)
+	LED[currentLED] = Purple
 	LEDs = [item for sublist in LED for item in sublist]
         resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.1)
-for i in range(0 , led3):
-        LED.append(Red)
-	LEDs = [item for sublist in LED for item in sublist]
-        resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.1)
-for i in range(0, led2):
-	LED.append(Green)
-	LEDs = [item for sublist in LED for item in sublist]
-        resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.1)
-for i in range(0, led1):
-	LED.append(Blue)
-	LEDs = [item for sublist in LED for item in sublist]
-        resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.1)
+        time.sleep(0.05)
+	currentLED = currentLED - 1
 
 try:
         print "Press Ctrl-C to Exit"
         while True:
                 LEDs = [item for sublist in LED for item in sublist]
-                resp = spi.xfer2(Start + LEDs + EndFrame)
-                time.sleep(0.01)
+		resp = spi.xfer2(Start + LEDs + EndFrame)
+		time.sleep(3)
+		for i in range(0, int(math.ceil(L3time-start))):
+			resp = spi.xfer2(Start + Blankall + EndFrame)		
+        	        time.sleep(0.1)
+			resp = spi.xfer2(Start + LEDs + EndFrame)
+			time.sleep(0.2)
 
 except KeyboardInterrupt:
     pass
 
 
 resp = spi.xfer2(Start + Blankall + EndFrame)
+
