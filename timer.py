@@ -135,7 +135,7 @@ for i in range(0, led1):
         LED[currentLED] = Blue
         LEDs = [item for sublist in LED for item in sublist]
         resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.05)
+        time.sleep(0.02)
         currentLED = currentLED - 1
 
 
@@ -143,21 +143,21 @@ for i in range(0, led2):
         LED[currentLED] = Green
         LEDs = [item for sublist in LED for item in sublist]
         resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.05)
+        time.sleep(0.02)
         currentLED = currentLED - 1
 
 for i in range(0 , led3):
         LED[currentLED] = Red
         LEDs = [item for sublist in LED for item in sublist]
         resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.05)
+        time.sleep(0.02)
         currentLED = currentLED - 1
 
 for i in range(0, otherLED):
 	LED[currentLED] = Purple
 	LEDs = [item for sublist in LED for item in sublist]
         resp = spi.xfer2(Start + LEDs + EndFrame)
-        time.sleep(0.05)
+        time.sleep(0.02)
 	currentLED = currentLED - 1
 
 try:
@@ -168,7 +168,7 @@ try:
 		time.sleep(3)
 		for i in range(0, int(math.ceil(L3time-start))):
 			resp = spi.xfer2(Start + Blankall + EndFrame)		
-        	        time.sleep(0.1)
+        	        time.sleep(0.2)
 			resp = spi.xfer2(Start + LEDs + EndFrame)
 			time.sleep(0.2)
 
